@@ -28,7 +28,8 @@ img {
   outline: none;
   height: 50px;
   width: 100%;
-  background-color: black;
+  background-color: #a4508b;
+  background-image: linear-gradient(326deg, #a4508b 0%, #5f0a87 80%);
   color: white;
   font-weight: bold;
 }
