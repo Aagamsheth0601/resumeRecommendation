@@ -1,42 +1,81 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/index.css')}}"
+    />
 
     <title>Name</title>
-</head>
+  </head>
 
-<body>
-    <div>
-        <h2>User</h2>
+  <body>
+    <div id="large-header" class="large-header"> 
+      <canvas id="demo-canvas"></canvas>
+        <div class="container text-center">
+                <h1 class="display-4">
+                <span class="text-primary" style="font-weight:bold">Resume Recommendation </span>
+                </h1>
+                <p class="lead">
+                <span class="text-primary">
+                    <strong>
+                    <em>
+                        <span class="text-danger">
+                        <span class="text-warning">
+                            <span class="text-success">
+                            <span class="text-info">
+                                <span class="text-muted">
+                                <span class="text-dark">
+                                    <span class="text-light">
+                                    <span class="text-white">
+                                      
+      <div class="text-center">
+        <h2 style="color: white">User</h2>
+        <br />
         <a class="btn btn-primary" href="/usersignup">Signup</a>
+        &nbsp;&nbsp;&nbsp;
         <a class="btn btn-primary" href="/userlogin">Login</a>
-    </div>
-    <div>
-        <h2>Company</h2>
-        <a class="btn btn-primary" href="/companylogin">Login</a>
+      </div>
+      <br />
+      <br />
+      <hr />
+      <div class="text-center">
+        <br />
+        <h2 style="color: white">Company</h2>
+        <br />
         <a class="btn btn-primary" href="/companysignup">Signup</a>
+        &nbsp;&nbsp;&nbsp;
+        <a class="btn btn-primary" href="/companylogin">Login</a>
+      </div>
     </div>
+    <br />
 
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-kQtW33rZJAHjgefvhyyzcGF3C5TFyBQBA13V1RKPf4uH+bwyzQxZ6CmMZHmNBEfJ"
-        crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-kQtW33rZJAHjgefvhyyzcGF3C5TFyBQBA13V1RKPf4uH+bwyzQxZ6CmMZHmNBEfJ"
+      crossorigin="anonymous"
+    ></script>
+   
+    <script
+      type="text/javascript"
+      src="{{url_for('static', filename='js/index.js')}}"
+    >
+      </script>
 
-    <!-- Option 2: Separate Popper and Bootstrap JS -->
-    <!--
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.min.js" integrity="sha384-PsUw7Xwds7x08Ew3exXhqzbhuEYmA2xnwc8BuD6SEr+UmEHlX8/MCltYEodzWA4u" crossorigin="anonymous"></script>
-    -->
-</body>
-
+           
+  </body>
 </html>
