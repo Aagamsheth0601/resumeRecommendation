@@ -1,5 +1,5 @@
 $(document).ready(function (e) {
-    $("form").on('submit', (function (e) {
+    $("#insertresume").on('submit', (function (e) {
         e.preventDefault();
         $.ajax({
             url: "/postresume",
@@ -10,6 +10,7 @@ $(document).ready(function (e) {
             processData: false,
             success: function (data) {
                 data = jQuery.parseJSON(data);
+                $('#formFile').val('')
                 $("#yourresume").html('<iframe src="static/resumes/'+data.resume+'" allowfullscreen></iframe>');
             },
             failure: function (){
