@@ -1,74 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous" />
-
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+      crossorigin="anonymous"
+    />
 
     <!-- Title -->
     <title>Profile</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="container">
+      <div style="padding-left: 1060px; padding-top: 30px">
         <a class="btn btn-primary" href="/logoutcompany">Logout</a>
-        <p>Name : {{user.name}}</p>
-        <p>Email : {{user.username}}</p>
+      </div>
+      <br />
+      <p style="font-size: 28px; font-family: serif, georgia">
+        Name : <b>{{user.name}}</b>
+      </p>
+      <p style="font-size: 28px; font-family: serif, georgia">
+        Email : <b>{{user.username}}</b>
+      </p>
     </div>
 
-    <br><br><br>
+    <br /><br /><br />
 
     <div class="container">
-        <h1>Search for job seekers</h1>
-        Search : <input type="text" name="text" id="myInput">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        Name
-                    </th>
-                    <th>
-                        Position
-                    </th>
-                    <th>
-                        Resume
-                    </th>
-                </tr>
-            </thead>
-            <tbody id="myTable">
-                {% for i in jobsearchers %}
-                <tr>
-                    <td>
-                        {{i.name}}
-                    </td>
-                    <td>
-                        {{i.position}}
-                    </td>
-                    <td>
-                        {% if i.resume %}
-                        <iframe src="static/resumes/{{i.resume}}" frameborder="0"></iframe>
-                        {% else %}
-                        No Resume
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+      <h1
+        class="text-center"
+        style="font-family: serif, georgia; font-weight: bold"
+      >
+        Search for Job Seekers
+      </h1>
+      <br />
+      Search : <input type="text" name="text" id="myInput" />
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Resume</th>
+          </tr>
+        </thead>
+        <tbody id="myTable">
+          {% for i in jobsearchers %}
+          <tr>
+            <td>{{i.name}}</td>
+            <td style="font-weight: bold">{{i.position}}</td>
+            <td>
+              {% if i.resume %}
+
+              <a
+                href="static/resumes/{{i.resume}}"
+                class="btn btn-primary"
+                target="__blank"
+              >
+                View resume
+              </a>
+              {% else %} No Resume {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
 
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
-        crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+      crossorigin="anonymous"
+    ></script>
 
     <!-- Option 2: Separate Popper and Bootstrap JS -->
     <!--
@@ -76,18 +89,16 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
     -->
 
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-        $(document).ready(function () {
-            $("#myInput").on("keyup", function () {
-                var value = $(this).val().toLowerCase();
-                $("#myTable tr").filter(function () {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                });
-            });
+      $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
+          var value = $(this).val().toLowerCase();
+          $("#myTable tr").filter(function () {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+          });
         });
+      });
     </script>
-</body>
-
+  </body>
 </html>
