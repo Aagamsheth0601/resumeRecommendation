@@ -18,8 +18,49 @@
 <body>
     <div class="container">
         <a class="btn btn-primary" href="/logoutcompany">Logout</a>
-        <p>Name : {{user.name}},</p>
-        <p>Email : {{user.username}},</p>
+        <p>Name : {{user.name}}</p>
+        <p>Email : {{user.username}}</p>
+    </div>
+
+    <br><br><br>
+
+    <div class="container">
+        <h1>Search for job seekers</h1>
+        Search : <input type="text" name="text" id="myInput">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Position
+                    </th>
+                    <th>
+                        Resume
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="myTable">
+                {% for i in jobsearchers %}
+                <tr>
+                    <td>
+                        {{i.name}}
+                    </td>
+                    <td>
+                        {{i.position}}
+                    </td>
+                    <td>
+                        {% if i.resume %}
+                        <iframe src="static/resumes/{{i.resume}}" frameborder="0"></iframe>
+                        {% else %}
+                        No Resume
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 
     <!-- Optional JavaScript; choose one of the two! -->
@@ -34,6 +75,19 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
     -->
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#myInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

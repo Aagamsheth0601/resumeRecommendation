@@ -24,6 +24,29 @@
         <a class="btn btn-primary" href="/logoutuser">Logout</a>
         <p>Name : {{user.name}},</p>
         <p>Email : {{user.username}},</p>
+        <div id='jobposition'>
+            {% if user.position %}
+            <p>Job position currently looking for : {{user.position}}</p>
+            {% endif %}
+        </div>
+
+
+        <br><br><br>
+
+        <form id='searchingjobposition'>
+            <div class="mb-3">
+                <label for="job" class="form-label">Update job position you are looking for : </label>
+                <input class="form-control" type="text" name='position' id="job" required>
+            </div>
+            <div id='message'></div>
+            <button type="submit" class="btn btn-primary mb-3">Update</button>
+        </form>
+
+
+        <br><br><br>
+
+
+
         <form id='insertresume'>
             <div class="mb-3">
                 <label for="formFile" class="form-label">Put your resume</label>

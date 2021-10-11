@@ -35,6 +35,7 @@ class User(db.Model):
     username = db.Column(db.String(200), unique=True)
     password = db.Column(db.String(200), nullable=False)
     resume = db.Column(db.String(200), nullable=True)
+    position = db.Column(db.String(200), nullable=True)
 
 
 # Signup
@@ -105,8 +106,6 @@ def profile():
     return redirect(url_for('userlogin'))
 
 # Function to keep file in folder
-
-
 @app.route('/postresume', methods=['POST'])
 def postresume():
     if(request.method == 'POST'):
@@ -121,6 +120,20 @@ def postresume():
         user.resume = resume.filename
         db.session.commit()
         return json.dumps({'status': 'OK', 'resume': resume.filename})
+
+
+# Function to update position
+@app.route('/updatejobpositionuser', methods=['POST'])
+def updatejobpositionuser():
+    if(request.method == 'POST'):
+        position = request.form['position']
+        username = session['username']
+        user = User.query.filter_by(username=username).first()
+        user.position = position
+        db.session.commit()
+        return json.dumps({'status': 'OK','job': position})
+
+
 
 
 # Logout
@@ -168,7 +181,7 @@ def companysignupcheck():
 
 @app.route("/companysignup")
 def companysignup():
-    if 'username' in session:
+    if 'company' in session:
         return redirect(url_for('companyprofile'))
     return render_template('companysignup.html')
 
@@ -186,7 +199,7 @@ def companylogincheck():
         # Check if password matches
         if not user.password == password:
             return json.dumps({'status': 'fail', 'message': 'Wrong password'})
-        session['username'] = username
+        session['company'] = username
         return json.dumps({'status': 'success'})
 
 # Function to call company Login Page
@@ -194,7 +207,7 @@ def companylogincheck():
 
 @app.route("/companylogin")
 def companylogin():
-    if 'username' in session:
+    if 'company' in session:
         return redirect(url_for('companyprofile'))
     return render_template('companylogin.html')
 
@@ -203,10 +216,11 @@ def companylogin():
 # Function to goto company profile
 @app.route("/companyprofile")
 def companyprofile():
-    if 'username' in session:
-        username = session['username']
+    if 'company' in session:
+        username = session['company']
         user = Company.query.filter_by(username=username).first()
-        return render_template('companyprofile.html', user=user)
+        jobsearchers = User.query.all()
+        return render_template('companyprofile.html', user=user, jobsearchers=jobsearchers)
     return redirect(url_for('companylogin'))
 
 
@@ -214,8 +228,8 @@ def companyprofile():
 # Function to logout
 @app.route("/logoutcompany")
 def logoutcompany():
-    if 'username' in session:
-        session.pop('username', None)
+    if 'company' in session:
+        session.pop('company', None)
     return redirect(url_for('companylogin'))
 
 
