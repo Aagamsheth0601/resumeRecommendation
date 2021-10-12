@@ -154,39 +154,37 @@ class Company(db.Model):
     name = db.Column(db.String(200), nullable=False)
     username = db.Column(db.String(200), unique=True)
     password = db.Column(db.String(200), nullable=False)
-
-
-class Job(db.Model):
-    sno = db.Column(db.Integer, primary_key=True)
-    companySno = db.Column(db.Integer, db.ForeignKey(
-        'company.sno'), nullable=False)
-    jobTitle = db.Column(db.String(200), nullable=False)
-    pdf = db.Column(db.String(200), nullable=False)
+    jobTitle = db.Column(db.String(200), nullable=True)
+    pdf = db.Column(db.String(200), nullable=True)
 
 # Upload Job Description
-
-
 @app.route("/companyRequirement", methods=['POST'])
 def companyRequirement():
-    if request.method == 'POST':
-        username = session['company']
-        companyDetails = Company.query.filter_by(username=username).first()
-        companySno = companyDetails.sno
-        jobTitle = request.form['position']
-        pdf = request.files['pdf']
-        pdf.filename = str(uuid.uuid4())+'.pdf'
-        pdf.save(os.path.join(
-            os.getcwd() + "\\static\\companyJobRequiement", secure_filename(pdf.filename)))
-        job = Job(companySno=companySno, jobTitle=jobTitle, pdf=pdf.filename)
-        db.session.add(job)
-        db.session.commit()
-        return json.dumps({'status': 'OK', 'pdf': pdf.filename})
+    if 'company' in session:
+        if request.method == 'POST':
+            username = session['company']
+            companyDetails = Company.query.filter_by(username=username).first()
+            jobTitle = request.form['position']
+            pdf = request.files['pdf']
+            pdf.filename = str(uuid.uuid4())+'.pdf'
+            pdf.save(os.path.join(os.getcwd() + "\\static\\companyJobRequiement", secure_filename(pdf.filename)))
+            if companyDetails.pdf:
+                os.remove(os.getcwd() + '/static/companyJobRequiement/'+companyDetails.pdf)
+            companyDetails.pdf = pdf.filename
+            companyDetails.jobTitle = jobTitle
+            db.session.commit()
+            return json.dumps({'status': 'OK', 'pdf': pdf.filename, 'job' : jobTitle})
+    return redirect(url_for('companylogin'))
 
 
 # Function to call Company Description Page
 @app.route("/companyJobRequirement")
 def companyJobRequirement():
-    return render_template('companyJobRequirement.html')
+    if 'company' in session:
+        username = session['company']
+        companyDetails = Company.query.filter_by(username=username).first()
+        return render_template('companyJobRequirement.html', companyDetails=companyDetails)
+    return redirect(url_for('companylogin'))
 
 
 # Signup

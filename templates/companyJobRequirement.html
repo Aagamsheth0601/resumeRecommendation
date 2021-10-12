@@ -1,59 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Bootstrap CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
-      crossorigin="anonymous"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous" />
 
     <!-- Title -->
     <title>Company Job Requiement</title>
-  </head>
+</head>
 
-  <body>
+<body>
+
+    <div class="container">
+        <div id="jobreqtext">
+            {% if companyDetails.jobTitle %}
+            <p>Job positions vacant: {{companyDetails.jobTitle}}</p>
+            {% endif %}
+        </div>
+        <br><br><br>
         <form id='job-title'>
             <div class="mb-3">
                 <label for="job" class="form-label">Update job position you are looking for : </label>
-                <input class="form-control" type="text" name='position' id="job" required>
+                <input class="form-control" type="text" name='position' id="job" required
+                    value="{{companyDetails.jobTitle}}">
             </div>
-          
+
             <div class="mb-3">
-                    <label for="pdf" class="form-label">Upload requirements in pdf format: </label>
-                    <input class="form-control" type="file" name='pdf' id="pdf" required>
+                <label for="pdf" class="form-label">Upload requirements in pdf format: </label>
+                <input class="form-control" type="file" name='pdf' id="pdf" required>
             </div>
             <button type="submit" class="btn btn-primary mb-3">Update</button>
             <div id='message'></div>
-
-
         </form>
+    </div>
 
-  </body>
+    <div class="container" id="jobreq">
+        {% if companyDetails.pdf %}
+        <iframe src="static/companyJobRequiement/{{companyDetails.pdf}}" allowfullscreen></iframe>
+        {% endif %}
+    </div>
+
+</body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
     crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function(){
-            $('form').submit(function(e){
-                e.preventDefault();
-                var formData = new FormData(this);
-                $.ajax({
-                    url: '/companyRequirement',
-                    type: 'POST',
-                    data: formData,
-                    success: function(data){
-                        $('#message').html(data);
-                    }
-                });
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("form").on('submit', (function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: "/companyRequirement",
+                type: "POST",
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function (data) {
+                    data = jQuery.parseJSON(data);
+                    $('#message').html('<div class="alert alert-success alert-dismissible fade show" role="alert">Successfully Updated<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+                    $("#jobreq").html('<iframe src="static/companyJobRequiement/' + data.pdf + '" allowfullscreen></iframe>');
+                    $("#jobreqtext").html('Job positions vacant: ' + data.job);
+                }
             });
-        });
-    </script>
+        }));
+    });
+</script>
 
-  </html>
+</html>
