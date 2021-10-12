@@ -1,6 +1,7 @@
 from flask import *
 from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
+from sqlalchemy.sql.schema import ForeignKey
 from werkzeug.utils import secure_filename
 import os
 import uuid
@@ -106,6 +107,8 @@ def profile():
     return redirect(url_for('userlogin'))
 
 # Function to keep file in folder
+
+
 @app.route('/postresume', methods=['POST'])
 def postresume():
     if(request.method == 'POST'):
@@ -131,9 +134,7 @@ def updatejobpositionuser():
         user = User.query.filter_by(username=username).first()
         user.position = position
         db.session.commit()
-        return json.dumps({'status': 'OK','job': position})
-
-
+        return json.dumps({'status': 'OK', 'job': position})
 
 
 # Logout
@@ -155,8 +156,43 @@ class Company(db.Model):
     password = db.Column(db.String(200), nullable=False)
 
 
+class Job(db.Model):
+    sno = db.Column(db.Integer, primary_key=True)
+    companySno = db.Column(db.Integer, db.ForeignKey(
+        'company.sno'), nullable=False)
+    jobTitle = db.Column(db.String(200), nullable=False)
+    pdf = db.Column(db.String(200), nullable=False)
+
+# Upload Job Description
+
+
+@app.route("/companyRequirement", methods=['POST'])
+def companyRequirement():
+    if request.method == 'POST':
+        username = session['company']
+        companyDetails = Company.query.filter_by(username=username).first()
+        companySno = companyDetails.sno
+        jobTitle = request.form['position']
+        pdf = request.files['pdf']
+        pdf.filename = str(uuid.uuid4())+'.pdf'
+        pdf.save(os.path.join(
+            os.getcwd() + "\\static\\companyJobRequiement", secure_filename(pdf.filename)))
+        job = Job(companySno=companySno, jobTitle=jobTitle, pdf=pdf.filename)
+        db.session.add(job)
+        db.session.commit()
+        return json.dumps({'status': 'OK', 'pdf': pdf.filename})
+
+
+# Function to call Company Description Page
+@app.route("/companyJobRequirement")
+def companyJobRequirement():
+    return render_template('companyJobRequirement.html')
+
+
 # Signup
 # Function to check company Signup Details
+
+
 @app.route("/companysignupcheck", methods=['POST'])
 def companysignupcheck():
     if request.method == 'POST':
