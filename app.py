@@ -137,6 +137,13 @@ def updatejobpositionuser():
         return json.dumps({'status': 'OK', 'job': position})
 
 
+@app.route("/searchcompany")
+def searchcompany():
+    if 'username' in session:
+        company = Company.query.all()
+        return render_template('searchcompany.html', company=company)
+    return redirect(url_for('userlogin'))
+
 # Logout
 # Function to call Company Signup Page
 @app.route("/logoutuser")
@@ -253,10 +260,16 @@ def companyprofile():
     if 'company' in session:
         username = session['company']
         user = Company.query.filter_by(username=username).first()
-        jobsearchers = User.query.all()
-        return render_template('companyprofile.html', user=user, jobsearchers=jobsearchers)
+        return render_template('companyprofile.html', user=user)
     return redirect(url_for('companylogin'))
 
+
+@app.route('/searchuser')
+def searchuser():
+    if 'company' in session:
+        jobsearchers = User.query.all()
+        return render_template('searchuser.html', jobsearchers=jobsearchers)
+    return redirect(url_for('companylogin'))
 
 # Logout
 # Function to logout

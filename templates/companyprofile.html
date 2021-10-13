@@ -1,113 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Bootstrap CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
-      crossorigin="anonymous"
-    />
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Title -->
-    <title>Profile</title>
-  </head>
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous" />
 
-  <body>
-    <div class="container">
-      <div style="padding-left: 1060px; padding-top: 20px">
-        <a class="btn btn-primary" href="/logoutcompany">Logout</a>
-      </div>
-      <a
-        style="margin-left: 400px"
-        class="btn btn-primary"
-        href="/companyJobRequirement"
-        >Upload Job Requirements</a
-      >
-      <p style="font-size: 20px; font-family: serif, georgia">
-        Name : <b>{{user.name}}</b>
-      </p>
-      <p style="font-size: 20px; font-family: serif, georgia">
-        Email : <b>{{user.username}}</b>
-      </p>
-    </div>
-    <hr />
-    <br /><br /><br />
+	<!-- Title -->
+	<title>Company Profile</title>
+</head>
 
-    <div class="container">
-      <h1
-        class="text-center"
-        style="font-family: serif, georgia; font-weight: bold"
-      >
-        Search for Job Seekers
-      </h1>
-      <br />
-      Search : <input type="text" name="text" id="myInput" />
+<body>
+	<div class="container">
+		<div style="text-align:right; padding-top: 20px">
+			<a class="btn btn-primary" href="/logoutcompany">Logout</a>
+		</div>
+		<div class="text-center">
+			<a class="btn btn-primary" href="/companyJobRequirement">Upload Job Requirements</a>
+			<a class="btn btn-primary" href="/searchuser">Search for Users</a>
+		</div>
+		<p style="font-size: 20px; font-family: serif, georgia">
+			Name : <b>{{user.name}}</b>
+		</p>
+		<p style="font-size: 20px; font-family: serif, georgia">
+			Email : <b>{{user.username}}</b>
+		</p>
+	</div>
+	<hr />
+	<br /><br /><br />
 
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Position</th>
-            <th>Resume</th>
-            <th>Hire</th>
-          </tr>
-        </thead>
-        <tbody id="myTable">
-          {% for i in jobsearchers %}
-          <tr>
-            <td>{{i.name}}</td>
-            <td style="font-weight: bold">{{i.position}}</td>
-            <td>
-              {% if i.resume %}
 
-              <a
-                href="static/resumes/{{i.resume}}"
-                class="btn btn-primary"
-                target="__blank"
-              >
-                View resume
-              </a>
-              {% else %} No Resume {% endif %}
-            </td>
-            <td>
-              <input type="checkbox" style="width: 20px; height: 30px" />
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
 
-    <!-- Optional JavaScript; choose one of the two! -->
+	<!-- Optional JavaScript; choose one of the two! -->
 
-    <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
-      crossorigin="anonymous"
-    ></script>
+	<!-- Option 1: Bootstrap Bundle with Popper -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+		crossorigin="anonymous"></script>
 
-    <!-- Option 2: Separate Popper and Bootstrap JS -->
-    <!--
+	<!-- Option 2: Separate Popper and Bootstrap JS -->
+	<!--
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
     -->
+</body>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-      $(document).ready(function () {
-        $("#myInput").on("keyup", function () {
-          var value = $(this).val().toLowerCase();
-          $("#myTable tr").filter(function () {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-          });
-        });
-      });
-    </script>
-  </body>
 </html>
