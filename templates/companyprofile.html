@@ -10,6 +10,9 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous" />
 
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 	<!-- Title -->
 	<title>Company Profile</title>
 </head>
@@ -35,6 +38,75 @@
 
 
 
+	<div class="container">
+		{% if companyfavourite %}
+		<h1>Your favourites</h1>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>
+						Name
+					</th>
+					<th>
+						Position
+					</th>
+					<th>
+						Resume
+					</th>
+					<th>
+						Favorite
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for i in companyfavourite %}
+				{% set user = userdetailsincompanyfavourite(i.usersno) %}
+				<tr id="tr{{user.sno}}">
+					<td>{{user.name}}</td>
+					<td style="font-weight: bold">
+						{% if user.position %}
+						{{user.position}}
+						{% else %}
+						No Details
+						{% endif %}
+					</td>
+					<td>
+						{% if user.resume %}
+
+						<a href="static/resumes/{{user.resume}}" class="btn btn-primary" target="__blank">
+							View resume
+						</a>
+						{% else %}
+						No Resume
+						{% endif %}
+					</td>
+					<td>
+						<style>
+							.btn-check:focus+.btn,
+							.btn:focus {
+								outline: 0;
+								box-shadow: none;
+							}
+						</style>
+						<div id="deletefavourite{{user.sno}}">
+							<form class="deletefavourite" id="{{user.sno}}">
+								<input type="hidden" name="usersno" value="{{user.sno}}">
+								<button type="submit" class="btn" class="update_form">
+									<i type="submit" class="fa fa-star" style="color: yellow;font-size: 30px;"></i>
+								</button>
+							</form>
+						</div>
+					</td>
+				</tr>
+
+				{% endfor %}
+			</tbody>
+		</table>
+		{% endif %}
+	</div>
+
+
+
 	<!-- Optional JavaScript; choose one of the two! -->
 
 	<!-- Option 1: Bootstrap Bundle with Popper -->
@@ -47,6 +119,27 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
     -->
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<script>
+		$(document).ready(function () {
+			$(".deletefavourite").on('submit', (function (e) {
+				e.preventDefault();
+				var id = $(this).attr('id');
+				$.ajax({
+					url: "/deletecompanyfavourite",
+					type: "POST",
+					data: new FormData(this),
+					contentType: false,
+					cache: false,
+					processData: false,
+					success: function (data) {
+						$("#tr" + id).hide();
+					}
+				});
+			}));
+		});
+	</script>
 </body>
 
 </html>

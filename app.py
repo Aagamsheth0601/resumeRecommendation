@@ -260,7 +260,8 @@ def companyprofile():
     if 'company' in session:
         username = session['company']
         user = Company.query.filter_by(username=username).first()
-        return render_template('companyprofile.html', user=user)
+        companyfavourite = Companyfavourite.query.filter_by(companysno = user.sno)
+        return render_template('companyprofile.html', user=user, companyfavourite=companyfavourite)
     return redirect(url_for('companylogin'))
 
 
@@ -278,6 +279,51 @@ def logoutcompany():
     if 'company' in session:
         session.pop('company', None)
     return redirect(url_for('companylogin'))
+
+
+# Company object
+class Companyfavourite(db.Model):
+    sno = db.Column(db.Integer, primary_key=True)
+    companysno = db.Column(db.Integer, ForeignKey("company.sno"), nullable=False)
+    usersno = db.Column(db.Integer, ForeignKey("user.sno"), nullable=False)
+
+
+def userincompanyfavourite(usersno):
+    username = session['company']
+    company = Company.query.filter_by(username=username).first()
+    return Companyfavourite.query.filter_by(usersno = usersno, companysno = company.sno).count()
+
+def userdetailsincompanyfavourite(usersno):
+    return User.query.filter_by(sno=usersno).first()
+
+@app.context_processor
+def context_processor():
+    return dict(userincompanyfavourite = userincompanyfavourite, userdetailsincompanyfavourite = userdetailsincompanyfavourite)
+
+
+@app.route("/addcompanyfavourite", methods=['POST'])
+def addcompanyfavourite():
+    if 'company' in session:
+        companyusername = session['company']
+        company = Company.query.filter_by(username=companyusername).first()
+        companysno = company.sno
+        usersno = request.form['usersno']
+        companyfavourite = Companyfavourite(companysno=companysno, usersno=usersno)
+        db.session.add(companyfavourite)
+        db.session.commit()
+        return json.dumps({'status': 'success'})
+
+@app.route("/deletecompanyfavourite", methods=['POST'])
+def deletecompanyfavourite():
+    if 'company' in session:
+        usersno = request.form['usersno']
+        companyusername = session['company']
+        company = Company.query.filter_by(username=companyusername).first()
+        companysno = company.sno
+        companyfavourite = Companyfavourite.query.filter_by(usersno = usersno, companysno = companysno).first()
+        db.session.delete(companyfavourite)
+        db.session.commit()
+        return json.dumps({'status': 'success'})
 
 
 ###################################### Common ######################################

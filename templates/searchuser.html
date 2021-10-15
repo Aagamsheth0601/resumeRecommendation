@@ -10,6 +10,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous" />
 
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <!-- Uploadresume CSS -->
     <link rel="stylesheet" href="{{url_for('static', filename='css/profile.css')}}" />
 
@@ -40,7 +43,7 @@
             </thead>
             <tbody id="myTable">
                 {% for i in jobsearchers %}
-                <tr>
+                <tr id="tr{{i.sno}}">
                     <td>{{i.name}}</td>
                     <td style="font-weight: bold">
                         {% if i.position %}
@@ -60,7 +63,49 @@
                         {% endif %}
                     </td>
                     <td>
-                        <input type="checkbox" style="width: 20px; height: 30px" />
+                        <style>
+                            .btn-check:focus+.btn,
+                            .btn:focus {
+                                outline: 0;
+                                box-shadow: none;
+                            }
+                        </style>
+
+                        {% if userincompanyfavourite(i.sno) == 0 %}
+                        <div id="addfavourite{{i.sno}}">
+                            <form class="addfavourite" id="{{i.sno}}">
+                                <input type="hidden" name="usersno" value="{{i.sno}}">
+                                <button type="submit" class="btn" class="update_form">
+                                    <i type="submit" class="fa fa-star" style="color: black;font-size: 30px;"></i>
+                                </button>
+                            </form>
+                        </div>
+                        <div id="deletefavourite{{i.sno}}" style="display:none;">
+                            <form class="deletefavourite" id="{{i.sno}}">
+                                <input type="hidden" name="usersno" value="{{i.sno}}">
+                                <button type="submit" class="btn" class="update_form">
+                                    <i type="submit" class="fa fa-star" style="color: yellow;font-size: 30px;"></i>
+                                </button>
+                            </form>
+                        </div>
+                        {% else %}
+                        <div id="addfavourite{{i.sno}}" style="display:none;">
+                            <form class="addfavourite" id="{{i.sno}}">
+                                <input type="hidden" name="usersno" value="{{i.sno}}">
+                                <button type="submit" class="btn" class="update_form">
+                                    <i type="submit" class="fa fa-star" style="color: black;font-size: 30px;"></i>
+                                </button>
+                            </form>
+                        </div>
+                        <div id="deletefavourite{{i.sno}}">
+                            <form class="deletefavourite" id="{{i.sno}}">
+                                <input type="hidden" name="usersno" value="{{i.sno}}">
+                                <button type="submit" class="btn" class="update_form">
+                                    <i type="submit" class="fa fa-star" style="color: yellow;font-size: 30px;"></i>
+                                </button>
+                            </form>
+                        </div>
+                        {% endif %}
                     </td>
                 </tr>
                 {% endfor %}
@@ -68,7 +113,7 @@
         </table>
         {% else %}
         <div>
-            No Job Seakers found
+            No job seakers
         </div>
         {% endif %}
     </div>
@@ -104,6 +149,39 @@
                     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
                 });
             });
+            $(".addfavourite").on('submit', (function (e) {
+                e.preventDefault();
+                var id = $(this).attr('id');
+                $.ajax({
+                    url: "/addcompanyfavourite",
+                    type: "POST",
+                    data: new FormData(this),
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function (data) {
+                        $("#addfavourite" + id).hide();
+                        $("#deletefavourite" + id).show();
+                    }
+                });
+            }));
+
+            $(".deletefavourite").on('submit', (function (e) {
+                e.preventDefault();
+                var id = $(this).attr('id');
+                $.ajax({
+                    url: "/deletecompanyfavourite",
+                    type: "POST",
+                    data: new FormData(this),
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function (data) {
+                        $("#deletefavourite" + id).hide();
+                        $("#addfavourite" + id).show();
+                    }
+                });
+            }));
         });
     </script>
 </body>
