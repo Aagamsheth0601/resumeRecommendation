@@ -27,6 +27,52 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
+
+
+
+
+
+###################################### Important ######################################
+
+# PDF to text
+from io import StringIO
+
+from pdfminer.converter import TextConverter
+from pdfminer.layout import LAParams
+from pdfminer.pdfdocument import PDFDocument
+from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
+from pdfminer.pdfpage import PDFPage
+from pdfminer.pdfparser import PDFParser
+
+
+def pdftotext(path):
+    output_string = StringIO()
+    with open(os.getcwd() + path, 'rb') as in_file:
+        parser = PDFParser(in_file)
+        doc = PDFDocument(parser)
+        rsrcmgr = PDFResourceManager()
+        device = TextConverter(rsrcmgr, output_string, laparams=LAParams())
+        interpreter = PDFPageInterpreter(rsrcmgr, device)
+        for page in PDFPage.create_pages(doc):
+            interpreter.process_page(page)
+    return output_string.getvalue()
+
+# Percentage Matche
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+def cosine(companyjobreq, userresume):
+    # Create vectors for cosine similarity
+    cv = CountVectorizer()
+    vectors = cv.fit_transform([companyjobreq, userresume])
+    return str(cosine_similarity(vectors)[0][1]*100)+"%"
+
+def percentagematch(companyjobreq, userresume):
+    companyjobreq = pdftotext("\\static\\companyJobRequiement\\"+companyjobreq)
+    userresume = pdftotext("\\static\\resumes\\"+userresume)
+    return cosine(companyjobreq, userresume)
+
+
 ###################################### User ######################################
 
 # User object
@@ -296,9 +342,15 @@ def userincompanyfavourite(usersno):
 def userdetailsincompanyfavourite(usersno):
     return User.query.filter_by(sno=usersno).first()
 
+def companyjobreq():
+    if 'company' in session:
+        companyusername = session['company']
+        company = Company.query.filter_by(username=companyusername).first()
+        return company.pdf
+
 @app.context_processor
 def context_processor():
-    return dict(userincompanyfavourite = userincompanyfavourite, userdetailsincompanyfavourite = userdetailsincompanyfavourite)
+    return dict(userincompanyfavourite = userincompanyfavourite, userdetailsincompanyfavourite = userdetailsincompanyfavourite, companyjobreq=companyjobreq, percentagematch = percentagematch)
 
 
 @app.route("/addcompanyfavourite", methods=['POST'])

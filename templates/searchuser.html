@@ -30,6 +30,7 @@
             Search for Job Seekers
         </h1>
         <br />
+        {% set companyjobreq = companyjobreq() %}
         {% if jobsearchers %}
         Search : <input type="text" name="text" id="myInput" />
         <table class="table">
@@ -39,6 +40,7 @@
                     <th>Position</th>
                     <th>Resume</th>
                     <th>Hire</th>
+                    <th>Resume match</th>
                 </tr>
             </thead>
             <tbody id="myTable">
@@ -105,6 +107,17 @@
                                 </button>
                             </form>
                         </div>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if companyjobreq %}
+                        {% if i.resume %}
+                        {{ percentagematch(companyjobreq, i.resume) }}
+                        {% else %}
+                        No Resume
+                        {% endif %}
+                        {% else %}
+                        No Job requirements uploaded
                         {% endif %}
                     </td>
                 </tr>
