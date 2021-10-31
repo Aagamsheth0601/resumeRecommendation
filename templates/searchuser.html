@@ -1,152 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+      crossorigin="anonymous"
+    />
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
 
     <!-- Uploadresume CSS -->
-    <link rel="stylesheet" href="{{url_for('static', filename='css/profile.css')}}" />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/profile.css')}}"
+    />
 
     <!-- Title -->
     <title>Search User</title>
-</head>
+  </head>
 
-<body>
-
-
-
-
+  <body>
     <div class="container">
-        <h1 class="text-center" style="font-family: serif, georgia; font-weight: bold">
-            Search for Job Seekers
-        </h1>
-        <br />
-        {% set companyjobreq = companyjobreq() %}
-        {% if jobsearchers %}
-        Search : <input type="text" name="text" id="myInput" />
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th>Resume</th>
-                    <th>Hire</th>
-                    <th>Resume match</th>
-                </tr>
-            </thead>
-            <tbody id="myTable">
-                {% for i in jobsearchers %}
-                <tr id="tr{{i.sno}}">
-                    <td>{{i.name}}</td>
-                    <td style="font-weight: bold">
-                        {% if i.position %}
-                        {{i.position}}
-                        {% else %}
-                        No Details
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if i.resume %}
+      <h1
+        class="text-center"
+        style="font-family: serif, georgia; font-weight: bold; padding-top:20px"
+      >
+        Search for Job Seekers
+      </h1>
+      <hr />
+      <br />
+      {% set companyjobreq = companyjobreq() %} <b>{% if jobsearchers %} Search :</b>
+      <i class="fa fa-search"></i> <input type="text" name="text" id="myInput" placeholder="Search Job Seekers" />
+      <style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
 
-                        <a href="static/resumes/{{i.resume}}" class="btn btn-primary" target="__blank">
-                            View resume
-                        </a>
-                        {% else %}
-                        No Resume
-                        {% endif %}
-                    </td>
-                    <td>
-                        <style>
-                            .btn-check:focus+.btn,
-                            .btn:focus {
-                                outline: 0;
-                                box-shadow: none;
-                            }
-                        </style>
+        /* Firefox */
+        input[type="number"] {
+          -moz-appearance: textfield;
+        }
+      </style>
+      <div style="text-align:right; padding-right:50px">
+      <b>Minimum Percentage %:</b>
+      <input type="number" name="minimum" id="minimum" min="0" width="400"  placeholder="Search by %" />
+      </div>
+      <br/>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Resume</th>
+            <th>Favorites</th>
+            <th>Resume match</th>
+          </tr>
+        </thead>
+        <tbody id="myTable">
+          {% for i in jobsearchers %}
+          <tr id="tr{{i.sno}}">
+            <td>{{i.name}}</td>
+            <td style="font-weight: bold">
+              {% if i.position %} {{i.position}} {% else %} No Details {% endif
+              %}
+            </td>
+            <td>
+              {% if i.resume %}
 
-                        {% if userincompanyfavourite(i.sno) == 0 %}
-                        <div id="addfavourite{{i.sno}}">
-                            <form class="addfavourite" id="{{i.sno}}">
-                                <input type="hidden" name="usersno" value="{{i.sno}}">
-                                <button type="submit" class="btn" class="update_form">
-                                    <i type="submit" class="fa fa-star" style="color: black;font-size: 30px;"></i>
-                                </button>
-                            </form>
-                        </div>
-                        <div id="deletefavourite{{i.sno}}" style="display:none;">
-                            <form class="deletefavourite" id="{{i.sno}}">
-                                <input type="hidden" name="usersno" value="{{i.sno}}">
-                                <button type="submit" class="btn" class="update_form">
-                                    <i type="submit" class="fa fa-star" style="color: yellow;font-size: 30px;"></i>
-                                </button>
-                            </form>
-                        </div>
-                        {% else %}
-                        <div id="addfavourite{{i.sno}}" style="display:none;">
-                            <form class="addfavourite" id="{{i.sno}}">
-                                <input type="hidden" name="usersno" value="{{i.sno}}">
-                                <button type="submit" class="btn" class="update_form">
-                                    <i type="submit" class="fa fa-star" style="color: black;font-size: 30px;"></i>
-                                </button>
-                            </form>
-                        </div>
-                        <div id="deletefavourite{{i.sno}}">
-                            <form class="deletefavourite" id="{{i.sno}}">
-                                <input type="hidden" name="usersno" value="{{i.sno}}">
-                                <button type="submit" class="btn" class="update_form">
-                                    <i type="submit" class="fa fa-star" style="color: yellow;font-size: 30px;"></i>
-                                </button>
-                            </form>
-                        </div>
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if companyjobreq %}
-                        {% if i.resume %}
-                        {{ percentagematch(companyjobreq, i.resume) }}
-                        {% else %}
-                        No Resume
-                        {% endif %}
-                        {% else %}
-                        No Job requirements uploaded
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        {% else %}
-        <div>
-            No job seakers
-        </div>
-        {% endif %}
+              <a
+                href="static/resumes/{{i.resume}}"
+                class="btn btn-primary"
+                target="__blank"
+              >
+                View resume
+              </a>
+              {% else %} No Resume {% endif %}
+            </td>
+            <td>
+              <style>
+                .btn-check:focus + .btn,
+                .btn:focus {
+                  outline: 0;
+                  box-shadow: none;
+                }
+              </style>
+
+              {% if userincompanyfavourite(i.sno) == 0 %}
+              <div id="addfavourite{{i.sno}}">
+                <form class="addfavourite" id="{{i.sno}}">
+                  <input type="hidden" name="usersno" value="{{i.sno}}" />
+                  <button type="submit" class="btn" class="update_form">
+                    <i
+                      type="submit"
+                      class="fa fa-star"
+                      style="color: black; font-size: 30px"
+                    ></i>
+                  </button>
+                </form>
+              </div>
+              <div id="deletefavourite{{i.sno}}" style="display: none">
+                <form class="deletefavourite" id="{{i.sno}}">
+                  <input type="hidden" name="usersno" value="{{i.sno}}" />
+                  <button type="submit" class="btn" class="update_form">
+                    <i
+                      type="submit"
+                      class="fa fa-star"
+                      style="color: yellow; font-size: 30px"
+                    ></i>
+                  </button>
+                </form>
+              </div>
+              {% else %}
+              <div id="addfavourite{{i.sno}}" style="display: none">
+                <form class="addfavourite" id="{{i.sno}}">
+                  <input type="hidden" name="usersno" value="{{i.sno}}" />
+                  <button type="submit" class="btn" class="update_form">
+                    <i
+                      type="submit"
+                      class="fa fa-star"
+                      style="color: black; font-size: 30px"
+                    ></i>
+                  </button>
+                </form>
+              </div>
+              <div id="deletefavourite{{i.sno}}">
+                <form class="deletefavourite" id="{{i.sno}}">
+                  <input type="hidden" name="usersno" value="{{i.sno}}" />
+                  <button type="submit" class="btn" class="update_form">
+                    <i
+                      type="submit"
+                      class="fa fa-star"
+                      style="color: yellow; font-size: 30px"
+                    ></i>
+                  </button>
+                </form>
+              </div>
+              {% endif %}
+            </td>
+            <td>
+              {% if companyjobreq %}
+              {% if i.resume %}
+              <input type="hidden" id="percentage" value="{{ percentagematch(companyjobreq, i.resume) }}">
+              <b>{{ percentagematch(companyjobreq, i.resume) }}</b>
+              {% else %}
+              <input type="hidden" id="percentage" value="-1">
+              No Resume
+              {% endif %}
+              {% else %}
+              <input type="hidden" id="percentage" value="-1">
+              No Job requirements uploaded
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div>No job seakers</div>
+      {% endif %}
     </div>
-
-
-
-
-
-
-
-
-
-
 
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
-        crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+      crossorigin="anonymous"
+    ></script>
 
     <!-- Option 2: Separate Popper and Bootstrap JS -->
     <!--
@@ -155,48 +188,59 @@
     -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script>
-        $(document).ready(function () {
-            $("#myInput").on("keyup", function () {
-                var value = $(this).val().toLowerCase();
-                $("#myTable tr").filter(function () {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-                });
-            });
-            $(".addfavourite").on('submit', (function (e) {
-                e.preventDefault();
-                var id = $(this).attr('id');
-                $.ajax({
-                    url: "/addcompanyfavourite",
-                    type: "POST",
-                    data: new FormData(this),
-                    contentType: false,
-                    cache: false,
-                    processData: false,
-                    success: function (data) {
-                        $("#addfavourite" + id).hide();
-                        $("#deletefavourite" + id).show();
-                    }
-                });
-            }));
+      $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
+          var value = $(this).val().toLowerCase();
+          $("#myTable tr").filter(function () {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+          });
+        });
+        $(".addfavourite").on("submit", function (e) {
+          e.preventDefault();
+          var id = $(this).attr("id");
+          $.ajax({
+            url: "/addcompanyfavourite",
+            type: "POST",
+            data: new FormData(this),
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function (data) {
+              $("#addfavourite" + id).hide();
+              $("#deletefavourite" + id).show();
+            },
+          });
+        });
 
-            $(".deletefavourite").on('submit', (function (e) {
-                e.preventDefault();
-                var id = $(this).attr('id');
-                $.ajax({
-                    url: "/deletecompanyfavourite",
-                    type: "POST",
-                    data: new FormData(this),
-                    contentType: false,
-                    cache: false,
-                    processData: false,
-                    success: function (data) {
-                        $("#deletefavourite" + id).hide();
-                        $("#addfavourite" + id).show();
-                    }
-                });
-            }));
+        $(".deletefavourite").on("submit", function (e) {
+          e.preventDefault();
+          var id = $(this).attr("id");
+          $.ajax({
+            url: "/deletecompanyfavourite",
+            type: "POST",
+            data: new FormData(this),
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function (data) {
+              $("#deletefavourite" + id).hide();
+              $("#addfavourite" + id).show();
+            },
+          });
+        });
+      });
+
+      $("#minimum").on("keyup", function () {
+          var value = parseInt($(this).val());
+          $("#myTable tr").each(function () {
+            var trvalue = parseFloat($(this).find("input#percentage").val());
+            if (trvalue < value) {
+              $(this).hide();
+            } else {
+              $(this).show();
+            }
+          });
         });
     </script>
-</body>
-
+  </body>
 </html>

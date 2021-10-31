@@ -10,7 +10,7 @@ import uuid
 app = Flask(__name__)
 
 
-# Session vaiable
+# Session variable
 app.secret_key = 'AJSKHFVIAUBVGNSDKFHUIUHFASHF'
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
