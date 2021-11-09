@@ -190,6 +190,23 @@ def searchcompany():
         return render_template('searchcompany.html', company=company)
     return redirect(url_for('userlogin'))
 
+
+
+# Profile
+# Function to goto company profile
+@app.route("/userfavourites")
+def userfavourites():
+    if 'username' in session:
+        username = session['username']
+        user = User.query.filter_by(username=username).first()
+        favourite = Companyfavourite.query.filter_by(usersno = user.sno)
+        return render_template('userfavourites.html', favourite=favourite)
+    return redirect(url_for('userlogin'))
+
+def companydetailsincompanyfavourite(companysno):
+    return Company.query.filter_by(sno=companysno).first()
+
+
 # Logout
 # Function to call Company Signup Page
 @app.route("/logoutuser")
@@ -350,7 +367,7 @@ def companyjobreq():
 
 @app.context_processor
 def context_processor():
-    return dict(userincompanyfavourite = userincompanyfavourite, userdetailsincompanyfavourite = userdetailsincompanyfavourite, companyjobreq=companyjobreq, percentagematch = percentagematch)
+    return dict(userincompanyfavourite = userincompanyfavourite, userdetailsincompanyfavourite = userdetailsincompanyfavourite, companyjobreq=companyjobreq, percentagematch = percentagematch, companydetailsincompanyfavourite=companydetailsincompanyfavourite)
 
 
 @app.route("/addcompanyfavourite", methods=['POST'])
