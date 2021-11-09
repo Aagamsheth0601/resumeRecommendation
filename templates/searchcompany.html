@@ -1,57 +1,59 @@
 <!-- Title -->
 <title>Search Company</title>
 
-{% extends 'usernavbar.html' %}
-{% block usernavbar %}
+{% extends 'usernavbar.html' %} {% block usernavbar %}
 <div class="container">
-    <h1 class="text-center" style="font-family: serif, georgia; font-weight: bold">
-        Search for Company
-    </h1>
-    <br />
-    Search : <input type="text" name="text" id="myInput" />
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Company</th>
-                <th>Company Requires</th>
-                <th>Position Details</th>
-            </tr>
-        </thead>
-        <tbody id="myTable">
-            {% for i in company %}
-            <tr>
-                <td>{{i.name}}</td>
-                <td>
-                    {% if i.jobTitle %}
-                    {{i.jobTitle}}
-                    {% else %}
-                    No Details
-                    {% endif %}
-                </td>
-                <td>
-                    {% if i.pdf %}
-                    <a href="static/companyJobRequiement/{{i.pdf}}" class="btn btn-primary" target="__blank">
-                        View Details
-                    </a>
-                    {% else %}
-                    No Details
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+  <h1
+    class="text-center"
+    style="font-family: serif, georgia; font-weight: bold"
+  >
+    Search for Company
+  </h1>
+  <br />
+  Search : <input type="text" name="text" id="myInput" />
+  <table class="table">
+    <thead>
+      <tr>
+        <td>Sr no.</td>
+        <th>Company</th>
+        <th>Company Requires</th>
+        <th>Position Details</th>
+      </tr>
+    </thead>
+    <tbody id="myTable">
+      {% for i in company %}
+      <tr>
+        <td>{{loop.index}}</td>
+        <td>{{i.name}}</td>
+        <td>
+          {% if i.jobTitle %} {{i.jobTitle}} {% else %} No Details {% endif %}
+        </td>
+        <td>
+          {% if i.pdf %}
+          <a
+            href="static/companyJobRequiement/{{i.pdf}}"
+            class="btn btn-primary"
+            target="__blank"
+          >
+            View Details
+          </a>
+          {% else %} No Details {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
 
 <script>
-    $(document).ready(function () {
-        $("#myInput").on("keyup", function () {
-            var value = $(this).val().toLowerCase();
-            $("#myTable tr").filter(function () {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-            });
-        });
+  $(document).ready(function () {
+    $("#myInput").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+      });
     });
+  });
 </script>
 
 {% endblock usernavbar %}

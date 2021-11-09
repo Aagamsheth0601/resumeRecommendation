@@ -42,6 +42,7 @@
 	<table class="table">
 		<thead>
 			<tr>
+				<th>Sr no.</th>
 				<th>Name</th>
 				<th>Position</th>
 				<th>Resume</th>
@@ -51,7 +52,9 @@
 		</thead>
 		<tbody id="myTable">
 			{% for i in jobsearchers %}
+
 			<tr id="tr{{i.sno}}">
+				<td>{{loop.index}}</td>
 				<td>{{i.name}}</td>
 				<td style="font-weight: bold">
 					{% if i.position %} {{i.position}} {% else %} No Details {% endif
