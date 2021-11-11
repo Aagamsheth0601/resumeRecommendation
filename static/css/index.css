@@ -6,9 +6,9 @@
   border: none;
 }
 body {
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-image: url("https://wallpaperboat.com/wp-content/uploads/2019/10/high-resolution-black-background-09.jpg");
+  margin: 0px;
+  padding: 0px;
+  /* background-image: url("/static/images/Wallpaper.jpg") cover; */
 }
 @media only screen and (max-width: 768px) {
   .demo-1 .main-title {

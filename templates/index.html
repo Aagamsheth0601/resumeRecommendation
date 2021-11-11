@@ -17,49 +17,55 @@
       href="{{url_for('static', filename='css/index.css')}}"
     />
 
-    <title>Linker|Home</title>
+    <title>Spade|Home</title>
   </head>
 
-  <body>
-    <div id="large-header" class="large-header"> 
-      <canvas id="demo-canvas"></canvas>
+  <body style="background-image: url('/static/images/Wallpaper.jpg'); overflow-x:hidden;background-size:cover">
+  <div class="row">
+    <div class="col-sm-6"> </div>
+    <div class="col-sm-6"> 
+      <div id="large-header" class="large-header">
+        <canvas id="demo-canvas"></canvas>
         <div class="container text-center">
-                <h1 class="display-4">
-                <span class="text-primary" style="font-weight:bold">Resume Recommendation </span>
-                </h1>
-                <p class="lead">
-                <span class="text-primary">
-                    <strong>
-                    <em>
-                        <span class="text-danger">
-                        <span class="text-warning">
-                            <span class="text-success">
-                            <span class="text-info">
-                                <span class="text-muted">
-                                <span class="text-dark">
-                                    <span class="text-light">
-                                    <span class="text-white">
-                                      
-      <div class="text-center">
-        <h2 style="color: white">Job Seeker</h2>
+          <h1 class="display-4">
+            <img src="{{url_for('static', filename='images/logo1.png')}}" alt="logo" class="logo" />
+          </h1>
+          <p class="lead">
+            <span class="text-primary">
+              <strong>
+                <em>
+                  <span class="text-danger">
+                    <span class="text-warning">
+                      <span class="text-success">
+                        <span class="text-info">
+                          <span class="text-muted">
+                            <span class="text-dark">
+                              <span class="text-light">
+                                <span class="text-white">
+      
+                                  <div class="text-center">
+                                    <h2 style="color: black">Job Seeker</h2>
+                                    <br />
+                                    <a class="btn btn-primary" href="/usersignup">Signup</a>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <a class="btn btn-primary" href="/userlogin">Login</a>
+                                  </div>
+                                  <br />
+                                  <br />
+      
+                                  <div class="text-center">
+                                    <br />
+                                    <h2 style="color: black">Company</h2>
+                                    <br />
+                                    <a class="btn btn-primary" href="/companysignup">Signup</a>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <a class="btn btn-primary" href="/companylogin">Login</a>
+                                  </div>
+        </div>
         <br />
-        <a class="btn btn-primary" href="/usersignup">Signup</a>
-        &nbsp;&nbsp;&nbsp;
-        <a class="btn btn-primary" href="/userlogin">Login</a>
-      </div>
-      <br />
-      <br />
-      <hr />
-      <div class="text-center">
-        <br />
-        <h2 style="color: white">Company</h2>
-        <br />
-        <a class="btn btn-primary" href="/companysignup">Signup</a>
-        &nbsp;&nbsp;&nbsp;
-        <a class="btn btn-primary" href="/companylogin">Login</a>
-      </div>
     </div>
-    <br />
+  </div>
+    
 
     <!-- Optional JavaScript; choose one of the two! -->
 

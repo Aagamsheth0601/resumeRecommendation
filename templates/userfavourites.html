@@ -1,62 +1,46 @@
 <!-- Title -->
 <title>User Profile</title>
 
-{% extends 'usernavbar.html' %}
-{% block usernavbar %}
-
-
-
+{% extends 'usernavbar.html' %} {% block usernavbar %}
 
 <div class="container">
-    {% if favourite %}
-    <h1>Your favourites</h1>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    Company Name
-                </th>
-                <th>
-                    Position
-                </th>
-                <th>
-                    Company Job Requirement
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for i in favourite %}
-            {% set company = companydetailsincompanyfavourite(i.companysno) %}
-            <tr id="tr{{company.sno}}">
-                <td>{{company.name}}</td>
-                <td style="font-weight: bold">
-                    {% if company.jobTitle %}
-                    {{company.jobTitle}}
-                    {% else %}
-                    No Details
-                    {% endif %}
-                </td>
-                <td>
-                    {% if company.pdf %}
+  {% if favourite %}
+  <h1>Your favourites</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Company Name</th>
+        <th>Position</th>
+        <th>Company Job Requirement</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in favourite %} {% set company =
+      companydetailsincompanyfavourite(i.companysno) %}
+      <tr id="tr{{company.sno}}">
+        <td>{{company.name}}</td>
+        <td style="font-weight: bold">
+          {% if company.jobTitle %} {{company.jobTitle}} {% else %} No Details
+          {% endif %}
+        </td>
+        <td>
+          {% if company.pdf %}
 
-                    <a href="static/companyJobRequiement/{{company.pdf}}" class="btn btn-primary" target="__blank">
-                        View Requirement
-                    </a>
-                    {% else %}
-                    No Requirements uploaded
-                    {% endif %}
-                </td>
-            </tr>
+          <a
+            href="static/companyJobRequiement/{{company.pdf}}"
+            class="btn btn-primary"
+            target="__blank"
+          >
+            View Requirement
+          </a>
+          {% else %} No Requirements uploaded {% endif %}
+        </td>
+      </tr>
 
-            {% endfor %}
-        </tbody>
-    </table>
-    {% else %}
-    No
-    {% endif %}
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %} No {% endif %}
 </div>
-
-
-
 
 {% endblock usernavbar %}

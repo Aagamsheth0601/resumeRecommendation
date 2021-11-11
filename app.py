@@ -65,8 +65,10 @@ def cosine(companyjobreq, userresume):
     # Create vectors for cosine similarity
     cv = CountVectorizer()
     vectors = cv.fit_transform([companyjobreq, userresume])
-    return str(cosine_similarity(vectors)[0][1]*100)+"%"
-
+    # print(vectors)
+    print(cosine_similarity(vectors))
+    return str("{:.2f}".format(cosine_similarity(vectors)[0][1]*100))+"%"
+    
 def percentagematch(companyjobreq, userresume):
     companyjobreq = pdftotext("\\static\\companyJobRequiement\\"+companyjobreq)
     userresume = pdftotext("\\static\\resumes\\"+userresume)
