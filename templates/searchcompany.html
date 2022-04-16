@@ -3,10 +3,7 @@
 
 {% extends 'usernavbar.html' %} {% block usernavbar %}
 <div class="container">
-  <h1
-    class="text-center"
-    style="font-family: serif, georgia; font-weight: bold"
-  >
+  <h1 class="text-center" style="font-family: serif, georgia; font-weight: bold">
     Search for Company
   </h1>
   <br />
@@ -16,6 +13,7 @@
       <tr>
         <td>Sr no.</td>
         <th>Company</th>
+        <th>Company Email</th>
         <th>Company Requires</th>
         <th>Position Details</th>
       </tr>
@@ -25,16 +23,13 @@
       <tr>
         <td>{{loop.index}}</td>
         <td>{{i.name}}</td>
+        <td>{{i.username}}</td>
         <td>
           {% if i.jobTitle %} {{i.jobTitle}} {% else %} No Details {% endif %}
         </td>
         <td>
           {% if i.pdf %}
-          <a
-            href="static/companyJobRequiement/{{i.pdf}}"
-            class="btn btn-primary"
-            target="__blank"
-          >
+          <a href="static/companyJobRequiement/{{i.pdf}}" class="btn btn-primary" target="__blank">
             View Details
           </a>
           {% else %} No Details {% endif %}

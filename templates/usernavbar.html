@@ -1,70 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Bootstrap CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
-      crossorigin="anonymous"
-    />
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Font Awesome -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous" />
 
-    <!-- Navbar css -->
-    <link
-      rel="stylesheet"
-      href="{{url_for('static', filename='css/style.css')}}"
-    />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-  </head>
+  <!-- Navbar css -->
+  <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" />
 
-  <body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+</head>
+
+<body>
+  <style>
+    .navbar-nav li {
+      padding-left: 30px;
+      padding-right: 30px;
+      color: #ffffff !important;
+    }
+
+    .navbar-nav a {
+      color: #ffffff !important;
+    }
+
+    .navbar-nav a:hover {
+      opacity: 0.7;
+    }
+
+    .navbar {
+      position: fixed;
+      width: 100%;
+    }
+  </style>
+  <section class="mb-4">
     <!---Navbar Start-->
-    <header id="navbar">
-      <a href="/profile">
-        <img
-          src="{{url_for('static', filename='images/logo1.png')}}"
-          alt="logo"
-          class="logo"
-        />
-      </a>
-      <nav>
-        <ul class="nav_links" style="color: blue">
-          <li><a href="/profile">My Profile</a></li>
-          <li><a href="/searchcompany">Search for Company</a></li>
-          <li><a href="/userfavourites">Interested Companies</a></li>
-        </ul>
-      </nav>
-      <a class="cta logout" href="/logoutuser"
-        ><button class="logout">Logout</button></a
-      >
-    </header>
-    <!---Navbar End-->
-    {% block usernavbar %} {% endblock usernavbar %}
+    <nav class="navbar sticky-top navbar-expand-sm navbar-dark bg-dark py-1">
+      <div class="container-fluid container">
+        <img src="{{url_for('static', filename='images/logo1.png')}}">Logo</img>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse nav-items" id="mynavbar">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/profile">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/searchcompany">Search for Companies</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/userfavourites">Interested Companies</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/recommendedcompany">Recommended Companies</a>
+            </li>
+          </ul>
+          <!-- <a class="cta logout" href="/logoutcompany"
+              ><button class="btn btn-primary" type="button">Logout</button>
+              </a
+            > -->
+          <div class="dropdown">
+            <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton1"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              {{user.username}}
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li><a class="dropdown-item" href="/profile">My Profile</a></li>
+              <li><a class="dropdown-item" href="/logoutuser">Logout</a></li>
+              <!-- <li><a class="dropdown-item" href="#">Something else here</a></li> -->
+            </ul>
+          </div>
 
-    <!-- Optional JavaScript; choose one of the two! -->
+        </div>
+      </div>
+    </nav>
+    <br><br><br><br>
+  </section>
 
-    <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
-      crossorigin="anonymous"
-    ></script>
 
-    <!-- Option 2: Separate Popper and Bootstrap JS -->
-    <!--
+  <!---Navbar End-->
+  {% block usernavbar %} {% endblock usernavbar %}
+
+  <!-- Optional JavaScript; choose one of the two! -->
+
+  <!-- Option 1: Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+    crossorigin="anonymous"></script>
+
+  <!-- Option 2: Separate Popper and Bootstrap JS -->
+  <!--
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
 -->
-  </body>
+</body>
+
 </html>

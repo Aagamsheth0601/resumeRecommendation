@@ -1,11 +1,11 @@
 <!-- Title -->
-<title>User Profile</title>
+<title>Companies interested in you</title>
 
 {% extends 'usernavbar.html' %} {% block usernavbar %}
 
 <div class="container">
   {% if favourite %}
-  <h1>Your favourites</h1>
+  <h1 class="text-center">Companies interested in you</h1>
   <table class="table">
     <thead>
       <tr>
@@ -26,11 +26,7 @@
         <td>
           {% if company.pdf %}
 
-          <a
-            href="static/companyJobRequiement/{{company.pdf}}"
-            class="btn btn-primary"
-            target="__blank"
-          >
+          <a href="static/companyJobRequiement/{{company.pdf}}" class="btn btn-primary" target="__blank">
             View Requirement
           </a>
           {% else %} No Requirements uploaded {% endif %}

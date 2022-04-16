@@ -66,7 +66,7 @@ def cosine(companyjobreq, userresume):
     cv = CountVectorizer()
     vectors = cv.fit_transform([companyjobreq, userresume])
     # print(vectors)
-    print(cosine_similarity(vectors))
+    # print(cosine_similarity(vectors))
     return str("{:.2f}".format(cosine_similarity(vectors)[0][1]*100))+"%"
     
 def percentagematch(companyjobreq, userresume):
@@ -141,7 +141,7 @@ def userlogincheck():
 def userlogin():
     if 'username' in session:
         return redirect(url_for('profile'))
-    return render_template('userlogin.html')
+    return render_template('user.html')
 
 
 # Profile
@@ -188,9 +188,12 @@ def updatejobpositionuser():
 @app.route("/searchcompany")
 def searchcompany():
     if 'username' in session:
+        username = session['username']
+        user = User.query.filter_by(username=username).first()
         company = Company.query.all()
-        return render_template('searchcompany.html', company=company)
+        return render_template('searchcompany.html', company=company, user=user)
     return redirect(url_for('userlogin'))
+
 
 
 
@@ -202,7 +205,23 @@ def userfavourites():
         username = session['username']
         user = User.query.filter_by(username=username).first()
         favourite = Companyfavourite.query.filter_by(usersno = user.sno)
-        return render_template('userfavourites.html', favourite=favourite)
+        return render_template('userfavourites.html', favourite=favourite, user=user)
+    return redirect(url_for('userlogin'))
+
+@app.route("/recommendedcompany")
+def recommendedcompany():
+    if 'username' in session:
+        username = session['username']
+        user = User.query.filter_by(username=username).first()
+        allcompany = Company.query.all()
+        company = list()
+        percentlist = list()
+        for i in allcompany:
+            percent = float(percentagematch(i.pdf, user.resume).replace("%", ""))
+            if percent >= 70:
+                company.append(i)
+                percentlist.append(percent)
+        return render_template('recommendedcompany.html', company=company, user=user, percentlist=percentlist)
     return redirect(url_for('userlogin'))
 
 def companydetailsincompanyfavourite(companysno):
@@ -315,7 +334,7 @@ def companylogincheck():
 def companylogin():
     if 'company' in session:
         return redirect(url_for('companyprofile'))
-    return render_template('companylogin.html')
+    return render_template('company.html')
 
 
 # Profile
@@ -324,17 +343,36 @@ def companylogin():
 def companyprofile():
     if 'company' in session:
         username = session['company']
-        user = Company.query.filter_by(username=username).first()
-        companyfavourite = Companyfavourite.query.filter_by(companysno = user.sno)
-        return render_template('companyprofile.html', user=user, companyfavourite=companyfavourite)
+        companyDetails = Company.query.filter_by(username=username).first()
+        companyfavourite = Companyfavourite.query.filter_by(companysno = companyDetails.sno)
+        return render_template('companyprofile.html', companyDetails=companyDetails, companyfavourite=companyfavourite)
     return redirect(url_for('companylogin'))
 
 
 @app.route('/searchuser')
 def searchuser():
     if 'company' in session:
+        user = session['company']
+        companyDetails = Company.query.filter_by(username=user).first()
         jobsearchers = User.query.all()
-        return render_template('searchuser.html', jobsearchers=jobsearchers)
+        return render_template('searchuser.html', jobsearchers=jobsearchers, companyDetails=companyDetails)
+    return redirect(url_for('companylogin'))
+
+
+@app.route('/recommendeduser')
+def recommendeduser():
+    if 'company' in session:
+        user = session['company']
+        companyDetails = Company.query.filter_by(username=user).first()
+        userslookingforjob = User.query.all()
+        jobsearchers = list()
+        percentlist = list()
+        for i in userslookingforjob:
+            percent = float(percentagematch(companyDetails.pdf, i.resume).replace("%", ""))
+            if percent >= 70:
+                jobsearchers.append(i)
+                percentlist.append(percent)
+        return render_template('recommendeduser.html', jobsearchers=jobsearchers, companyDetails=companyDetails, percentlist=percentlist)
     return redirect(url_for('companylogin'))
 
 # Logout

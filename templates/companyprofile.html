@@ -5,10 +5,10 @@
 {% block companynavbar %}
 <div class="container">
 	<p style="font-size: 20px; font-family: serif, georgia">
-		Name : <b>{{user.name}}</b>
+		Name : <b>{{companyDetails.name}}</b>
 	</p>
 	<p style="font-size: 20px; font-family: serif, georgia">
-		Email : <b>{{user.username}}</b>
+		Email : <b>{{companyDetails.username}}</b>
 	</p>
 </div>
 <hr />
@@ -38,20 +38,20 @@
 		</thead>
 		<tbody>
 			{% for i in companyfavourite %}
-			{% set user = userdetailsincompanyfavourite(i.usersno) %}
-			<tr id="tr{{user.sno}}">
-				<td>{{user.name}}</td>
+			{% set companyDetails = userdetailsincompanyfavourite(i.usersno) %}
+			<tr id="tr{{companyDetails.sno}}">
+				<td>{{companyDetails.name}}</td>
 				<td style="font-weight: bold">
-					{% if user.position %}
-					{{user.position}}
+					{% if companyDetails.position %}
+					{{companyDetails.position}}
 					{% else %}
 					No Details
 					{% endif %}
 				</td>
 				<td>
-					{% if user.resume %}
+					{% if companyDetails.resume %}
 
-					<a href="static/resumes/{{user.resume}}" class="btn btn-primary" target="__blank">
+					<a href="static/resumes/{{companyDetails.resume}}" class="btn btn-primary" target="__blank">
 						View resume
 					</a>
 					{% else %}
@@ -66,9 +66,9 @@
 							box-shadow: none;
 						}
 					</style>
-					<div id="deletefavourite{{user.sno}}">
-						<form class="deletefavourite" id="{{user.sno}}">
-							<input type="hidden" name="usersno" value="{{user.sno}}">
+					<div id="deletefavourite{{companyDetails.sno}}">
+						<form class="deletefavourite" id="{{companyDetails.sno}}">
+							<input type="hidden" name="usersno" value="{{companyDetails.sno}}">
 							<button type="submit" class="btn" class="update_form">
 								<i type="submit" class="fa fa-star" style="color: yellow;font-size: 30px;"></i>
 							</button>

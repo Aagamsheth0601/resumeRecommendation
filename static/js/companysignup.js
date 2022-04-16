@@ -10,10 +10,12 @@ $(document).ready(function (e) {
             processData: false,
             success: function (data) {
                 data = jQuery.parseJSON(data);
-                if(data.status=='fail'){
-                    $('#error').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">'+data.message+'<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>')
-                }else{
-                    $('#error').html('<div class="alert alert-success alert-dismissible fade show" role="alert">'+data.message+'<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>')
+                if (data.status == 'fail') {
+                    alert(data.message);
+                    // $('#error').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">'+data.message+'<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>')
+                } else {
+                    alert(data.message);
+                    // $('#error').html('<div class="alert alert-success alert-dismissible fade show" role="alert">'+data.message+'<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>')
                 }
             }
         });
