@@ -47,7 +47,8 @@
 				<th>Position</th>
 				<th>Resume</th>
 				<th>Favorites</th>
-				<th>Resume match</th>
+				<th>Cosine match</th>
+				<th>FuzzyWuzzy match</th>
 			</tr>
 		</thead>
 		<tbody id="myTable">
@@ -118,6 +119,20 @@
 					{% if i.resume %}
 					<input type="hidden" id="percentage" value="{{ percentagematch(companyjobreq, i.resume) }}">
 					<b>{{ percentagematch(companyjobreq, i.resume) }}</b>
+					{% else %}
+					<input type="hidden" id="percentage" value="-1">
+					No Resume
+					{% endif %}
+					{% else %}
+					<input type="hidden" id="percentage" value="-1">
+					No Job requirements uploaded
+					{% endif %}
+				</td>
+				<td>
+					{% if companyjobreq %}
+					{% if i.resume %}
+					<input type="hidden" id="percentage" value="{{ percentagematchfuzzy(companyjobreq, i.resume) }}">
+					<b>{{ percentagematchfuzzy(companyjobreq, i.resume) }}</b>
 					{% else %}
 					<input type="hidden" id="percentage" value="-1">
 					No Resume

@@ -6,6 +6,10 @@ from werkzeug.utils import secure_filename
 import os
 import uuid
 
+from fuzzywuzzy import fuzz
+from fuzzywuzzy import process
+
+
 
 app = Flask(__name__)
 
@@ -60,6 +64,14 @@ def pdftotext(path):
 # Percentage Matche
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+
+def fuzzyWuzzy(s1, s2):
+    return fuzz.WRatio(s1, s2)
+
+def percentagematchfuzzy(companyjobreq, userresume):
+    companyjobreq = pdftotext("\\static\\companyJobRequiement\\"+companyjobreq)
+    userresume = pdftotext("\\static\\resumes\\"+userresume)
+    return fuzzyWuzzy(companyjobreq, userresume)
 
 def cosine(companyjobreq, userresume):
     # Create vectors for cosine similarity
@@ -407,7 +419,7 @@ def companyjobreq():
 
 @app.context_processor
 def context_processor():
-    return dict(userincompanyfavourite = userincompanyfavourite, userdetailsincompanyfavourite = userdetailsincompanyfavourite, companyjobreq=companyjobreq, percentagematch = percentagematch, companydetailsincompanyfavourite=companydetailsincompanyfavourite)
+    return dict(percentagematchfuzzy=percentagematchfuzzy,userincompanyfavourite = userincompanyfavourite, userdetailsincompanyfavourite = userdetailsincompanyfavourite, companyjobreq=companyjobreq, percentagematch = percentagematch, companydetailsincompanyfavourite=companydetailsincompanyfavourite)
 
 
 @app.route("/addcompanyfavourite", methods=['POST'])
