@@ -1,119 +1,144 @@
 <html>
-
-<head>
+  <head>
     <title>Login and Registration Form</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <!-- <link rel="stylesheet" type="text/css" href="styles.css"> -->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700,800&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Nunito:400,600,700,800&display=swap"
+      rel="stylesheet"
+    />
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
-        integrity="sha512-wnea99uKIC3TJF7v4eKk4Y+lMz2Mklv18+r4na2Gn1abDRPPOeef95xTzdwGD9e6zXJBteMIhZ1+68QC5byJZw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/components.css"
-        integrity="sha512-9BlWpvccUKhxv9Jzha/JN6P+4hrVmhka0a0tnjtuv+Ro/V8itR/f0FM28++8CiK2CQ/qXu56VzGoHpGT3dJTKg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
+      integrity="sha512-wnea99uKIC3TJF7v4eKk4Y+lMz2Mklv18+r4na2Gn1abDRPPOeef95xTzdwGD9e6zXJBteMIhZ1+68QC5byJZw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/components.css"
+      integrity="sha512-9BlWpvccUKhxv9Jzha/JN6P+4hrVmhka0a0tnjtuv+Ro/V8itR/f0FM28++8CiK2CQ/qXu56VzGoHpGT3dJTKg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
 
-    <link rel="stylesheet" href="{{url_for('static', filename='css/newlogin.css')}}" />
-</head>
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/newlogin.css')}}"
+    />
+  </head>
 
-<body>
+  <body>
     <div class="cont">
-        <div class="form sign-in">
-            <form id="login">
-                <h2>Sign In</h2>
-                <label>
-                    <span>Email Address</span>
-                    <input type="email" name="username" required />
-                </label>
-                <label>
-                    <span>Password</span>
-                    <input type="password" name="password" required />
-                </label>
-                <div id="errorlogin"></div>
-                <button class="submit" type="submit">Sign In</button>
-            </form>
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                style="margin-left: 160px">
-                <a href="./home"> Home </a>
+      <div class="form sign-in">
+        <form id="login">
+          <h2>Sign In</h2>
+          <label>
+            <span>Email Address</span>
+            <input type="email" name="username" required />
+          </label>
+          <label>
+            <span>Password</span>
+            <input type="password" name="password" required />
+          </label>
+          <div id="errorlogin"></div>
+          <button class="submit" type="submit">Sign In</button>
+        </form>
+        <button
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          style="margin-left: 160px"
+        >
+          <a href="/"> Home </a>
+        </button>
+
+        <div class="social-media">
+          <ul>
+            <li>
+              <img
+                src="https://pluspng.com/img-png/google-logo-png-open-2000.png"
+              />
+            </li>
+            <li>
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/F_icon.svg/1200px-F_icon.svg.png"
+              />
+            </li>
+            <li>
+              <img
+                src="https://cdn2.iconfinder.com/data/icons/minimalism/512/twitter.png"
+              />
+            </li>
+            <li>
+              <img
+                src="https://cdn2.iconfinder.com/data/icons/popular-social-media-flat/48/Popular_Social_Media-22-512.png"
+              />
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="sub-cont">
+        <div class="img">
+          <div class="img-text m-up">
+            <h2>New here?</h2>
+            <p>Sign up and discover great amount of new opportunities!</p>
+          </div>
+          <div class="img-text m-in">
+            <h2>One of us?</h2>
+            <p>
+              If you already has an account ,just sign in. We've missed you!
+            </p>
+          </div>
+          <div class="img-btn">
+            <span class="m-up">Sign Up</span>
+            <span class="m-in">Sign In</span>
+          </div>
+        </div>
+        <div class="form sign-up" style="margin-bottom: 40px">
+          <form id="signup">
+            <h2 style="font-weight: bold; font-size: large">
+              Job Seeker Sign Up
+            </h2>
+            <label>
+              <span>Name</span>
+              <input type="text" name="name" required />
+            </label>
+            <label>
+              <span>Email</span>
+              <input type="email" name="username" required />
+            </label>
+            <label>
+              <span>Password</span>
+              <input type="password" name="password" required />
+            </label>
+            <label>
+              <span>Confirm Password</span>
+              <input type="password" name="confirm-password" required />
+            </label>
+            <div id="errorsignup"></div>
+            <!-- <input type="submit" value="Submit"> -->
+            <button type="submit" class="submit">Sign Up Now</button>
+            <button
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              style="margin-left: 160px"
+            >
+              <a href="./"> Home </a>
             </button>
-
-            <div class="social-media">
-                <ul>
-                    <li>
-                        <img src="https://pluspng.com/img-png/google-logo-png-open-2000.png" />
-                    </li>
-                    <li>
-                        <img
-                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/F_icon.svg/1200px-F_icon.svg.png" />
-                    </li>
-                    <li>
-                        <img src="https://cdn2.iconfinder.com/data/icons/minimalism/512/twitter.png" />
-                    </li>
-                    <li>
-                        <img
-                            src="https://cdn2.iconfinder.com/data/icons/popular-social-media-flat/48/Popular_Social_Media-22-512.png" />
-                    </li>
-                </ul>
-            </div>
+          </form>
         </div>
-
-        <div class="sub-cont">
-            <div class="img">
-                <div class="img-text m-up">
-                    <h2>New here?</h2>
-                    <p>Sign up and discover great amount of new opportunities!</p>
-                </div>
-                <div class="img-text m-in">
-                    <h2>One of us?</h2>
-                    <p>
-                        If you already has an account ,just sign in. We've missed you!
-                    </p>
-                </div>
-                <div class="img-btn">
-                    <span class="m-up">Sign Up</span>
-                    <span class="m-in">Sign In</span>
-                </div>
-            </div>
-            <div class="form sign-up" style="margin-bottom: 40px">
-                <form id="signup">
-                    <h2 style="font-weight:bold; font-size: large">
-                        Job Seeker Sign Up
-                    </h2>
-                    <label>
-                        <span>Name</span>
-                        <input type="text" name="name" required />
-                    </label>
-                    <label>
-                        <span>Email</span>
-                        <input type="email" name="username" required />
-                    </label>
-                    <label>
-                        <span>Password</span>
-                        <input type="password" name="password" required />
-                    </label>
-                    <label>
-                        <span>Confirm Password</span>
-                        <input type="password" name="confirm-password" required />
-                    </label>
-                    <div id="errorsignup"></div>
-                    <!-- <input type="submit" value="Submit"> -->
-                    <button type="submit" class="submit">Sign Up Now</button>
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                        style="margin-left: 160px">
-                        <a href="./"> Home </a>
-                    </button>
-                </form>
-            </div>
-        </div>
+      </div>
     </div>
 
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
-        crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+      crossorigin="anonymous"
+    ></script>
 
     <!-- Option 2: Separate Popper and Bootstrap JS -->
     <!--
@@ -123,12 +148,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="{{url_for('static', filename='js/usersignup.js')}}"></script>
     <script src="{{url_for('static', filename='js/userlogin.js')}}"></script>
-</body>
-
+  </body>
 </html>
 
 <script>
-    document.querySelector(".img-btn").addEventListener("click", function () {
-        document.querySelector(".cont").classList.toggle("s-signup");
-    });
+  document.querySelector(".img-btn").addEventListener("click", function () {
+    document.querySelector(".cont").classList.toggle("s-signup");
+  });
 </script>
