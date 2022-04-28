@@ -5,7 +5,7 @@ from sqlalchemy.sql.schema import ForeignKey
 from werkzeug.utils import secure_filename
 import os
 import uuid
-
+import bcrypt 
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 
@@ -138,6 +138,8 @@ def usersignupcheck():
             username=username).first() is not None
         if exists:
             return json.dumps({'status': 'fail', 'message': 'User already exists. Try different loginID or goto login'})
+        password = password.encode('utf-8')
+        password = bcrypt.hashpw(password, bcrypt.gensalt())
         user = User(name=name, username=username, password=password)
         db.session.add(user)
         db.session.commit()
@@ -164,7 +166,8 @@ def userlogincheck():
         if not user:
             return json.dumps({'status': 'fail', 'message': 'You need to first Signup'})
         # Check if password matches
-        if not user.password == password:
+        password = password.encode('utf-8') 
+        if not bcrypt.checkpw(password, user.password):
             return json.dumps({'status': 'fail', 'message': 'Wrong password'})
         session['username'] = username
         return json.dumps({'status': 'success'})
@@ -331,6 +334,8 @@ def companysignupcheck():
             username=username).first() is not None
         if exists:
             return json.dumps({'status': 'fail', 'message': 'User already exists. Try different loginID or goto login'})
+        password = password.encode('utf-8')
+        password = bcrypt.hashpw(password, bcrypt.gensalt())
         user = Company(name=name, username=username, password=password)
         db.session.add(user)
         db.session.commit()
@@ -357,7 +362,8 @@ def companylogincheck():
         if not user:
             return json.dumps({'status': 'fail', 'message': 'You need to first Signup'})
         # Check if password matches
-        if not user.password == password:
+        password = password.encode('utf-8')
+        if not bcrypt.checkpw(password, user.password):
             return json.dumps({'status': 'fail', 'message': 'Wrong password'})
         session['company'] = username
         return json.dumps({'status': 'success'})
