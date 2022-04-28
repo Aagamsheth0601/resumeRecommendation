@@ -30,7 +30,30 @@ app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///user.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+# For Mail
 
+from flask_mail import Mail, Message
+
+# Mail
+mail = Mail(app) # instantiate the mail class
+
+# configuration of mail
+app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'spaderesume@gmail.com'
+app.config['MAIL_PASSWORD'] = 'abAB12!@'
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+mail = Mail(app)
+
+def sendMail(usermail, header,message):
+  msg = Message(
+          header,
+          sender = 'spaderesume@gmail.com',
+          recipients = [usermail]
+        )
+  msg.body = message
+  mail.send(msg)
 
 
 
@@ -66,7 +89,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 def fuzzyWuzzy(s1, s2):
-    return fuzz.WRatio(s1, s2)
+    return str(fuzz.WRatio(s1, s2)) + ".00%"
 
 def percentagematchfuzzy(companyjobreq, userresume):
     companyjobreq = pdftotext("\\static\\companyJobRequiement\\"+companyjobreq)
@@ -432,6 +455,8 @@ def addcompanyfavourite():
         companyfavourite = Companyfavourite(companysno=companysno, usersno=usersno)
         db.session.add(companyfavourite)
         db.session.commit()
+        username = User.query.filter_by(sno=usersno).first()
+        sendMail(username.username,"Congratulations! You have been added to "+ company.name +"'s favourite list", "Hi "+ username.name +"!, This mail is to congratulate you for being shortlisted for the "+username.position +" role. The company will contact you through email to discuss further details.\n\nRegards,\nTeam Spade.")
         return json.dumps({'status': 'success'})
 
 @app.route("/deletecompanyfavourite", methods=['POST'])
