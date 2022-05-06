@@ -462,7 +462,7 @@ def addcompanyfavourite():
         db.session.add(companyfavourite)
         db.session.commit()
         username = User.query.filter_by(sno=usersno).first()
-        sendMail(username.username,"Congratulations! You have been added to "+ company.name +"'s favourite list", "Hi "+ username.name +"!, This mail is to congratulate you for being shortlisted for the "+username.position +" role. The company will contact you through email to discuss further details.\n\nRegards,\nTeam Spade.")
+        sendMail(username.username,"Congratulations! You have been added to "+ company.name +"'s favourite list", "Hi "+ username.name +"!,\n\n This mail is to congratulate you for being shortlisted for the "+username.position +" role. The company will contact you through email to discuss further details.\n\nRegards,\nTeam Spade.")
         return json.dumps({'status': 'success'})
 
 @app.route("/deletecompanyfavourite", methods=['POST'])
